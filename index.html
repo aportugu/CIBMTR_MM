@@ -1688,6 +1688,7 @@ df %&gt;%
       ct_priortxtype == &quot;3&quot; ~ &quot;Prior auto and allo-HCT&quot;,
       ct_priortxtype == &quot;99&quot; ~ NA
     ),
+    Prior.txp = ifelse(ct_priortxtype %in% c(&quot;1&quot;,&quot;2&quot;,&quot;3&quot;),&quot;Prior HCT&quot;,&quot;No HCT&quot;),
     &quot;Prior BCMA-targeted therapy&quot; = case_when(
       ct_highpcbmpr == &quot;0&quot; ~ &quot;No&quot;,
       ct_highpcbmpr == &quot;1&quot; ~ &quot;Yes&quot;,
@@ -1703,8 +1704,10 @@ df %&gt;%
       ct_pentarfpr == &quot;1&quot; ~ &quot;Yes&quot;,
       ct_pentarfpr == &quot;99&quot; ~ NA
     ),
+    &quot;Time from diagnosis to CAR-T (months)&quot; = intdxct_month
   ) %&gt;%
   tbl_summary(
+    by = Prior.txp,
     missing = &quot;no&quot;,
     sort = list(all_categorical() ~ &quot;frequency&quot;),
     statistic = list(
@@ -1712,21 +1715,23 @@ df %&gt;%
       all_categorical() ~ &quot;{n} ({p}%)&quot;
     )
   ) %&gt;%
+  add_overall() %&gt;%
+  add_p() %&gt;%
   bold_labels()</code></pre>
-<div id="xvfvnxadzl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xvfvnxadzl table {
+<div id="wihofkwolu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wihofkwolu table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#xvfvnxadzl thead, #xvfvnxadzl tbody, #xvfvnxadzl tfoot, #xvfvnxadzl tr, #xvfvnxadzl td, #xvfvnxadzl th {
+#wihofkwolu thead, #wihofkwolu tbody, #wihofkwolu tfoot, #wihofkwolu tr, #wihofkwolu td, #wihofkwolu th {
 border-style: none;
 }
-#xvfvnxadzl p {
+#wihofkwolu p {
 margin: 0;
 padding: 0;
 }
-#xvfvnxadzl .gt_table {
+#wihofkwolu .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -1751,11 +1756,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#xvfvnxadzl .gt_caption {
+#wihofkwolu .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#xvfvnxadzl .gt_title {
+#wihofkwolu .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -1766,7 +1771,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#xvfvnxadzl .gt_subtitle {
+#wihofkwolu .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -1777,7 +1782,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#xvfvnxadzl .gt_heading {
+#wihofkwolu .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -1788,12 +1793,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#xvfvnxadzl .gt_bottom_border {
+#wihofkwolu .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#xvfvnxadzl .gt_col_headings {
+#wihofkwolu .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -1807,7 +1812,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#xvfvnxadzl .gt_col_heading {
+#wihofkwolu .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1826,7 +1831,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#xvfvnxadzl .gt_column_spanner_outer {
+#wihofkwolu .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1837,13 +1842,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#xvfvnxadzl .gt_column_spanner_outer:first-child {
+#wihofkwolu .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#xvfvnxadzl .gt_column_spanner_outer:last-child {
+#wihofkwolu .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#xvfvnxadzl .gt_column_spanner {
+#wihofkwolu .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -1854,10 +1859,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#xvfvnxadzl .gt_spanner_row {
+#wihofkwolu .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#xvfvnxadzl .gt_group_heading {
+#wihofkwolu .gt_group_heading {
 padding-top: 1px;
 padding-bottom: 1px;
 padding-left: 5px;
@@ -1882,7 +1887,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#xvfvnxadzl .gt_empty_group_heading {
+#wihofkwolu .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -1896,13 +1901,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#xvfvnxadzl .gt_from_md > :first-child {
+#wihofkwolu .gt_from_md > :first-child {
 margin-top: 0;
 }
-#xvfvnxadzl .gt_from_md > :last-child {
+#wihofkwolu .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#xvfvnxadzl .gt_row {
+#wihofkwolu .gt_row {
 padding-top: 1px;
 padding-bottom: 1px;
 padding-left: 5px;
@@ -1920,7 +1925,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#xvfvnxadzl .gt_stub {
+#wihofkwolu .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1932,7 +1937,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#xvfvnxadzl .gt_stub_row_group {
+#wihofkwolu .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1945,13 +1950,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#xvfvnxadzl .gt_row_group_first td {
+#wihofkwolu .gt_row_group_first td {
 border-top-width: 2px;
 }
-#xvfvnxadzl .gt_row_group_first th {
+#wihofkwolu .gt_row_group_first th {
 border-top-width: 2px;
 }
-#xvfvnxadzl .gt_summary_row {
+#wihofkwolu .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1960,14 +1965,14 @@ padding-bottom: 1px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#xvfvnxadzl .gt_first_summary_row {
+#wihofkwolu .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#xvfvnxadzl .gt_first_summary_row.thick {
+#wihofkwolu .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#xvfvnxadzl .gt_last_summary_row {
+#wihofkwolu .gt_last_summary_row {
 padding-top: 1px;
 padding-bottom: 1px;
 padding-left: 5px;
@@ -1976,7 +1981,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#xvfvnxadzl .gt_grand_summary_row {
+#wihofkwolu .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1985,7 +1990,7 @@ padding-bottom: 1px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#xvfvnxadzl .gt_first_grand_summary_row {
+#wihofkwolu .gt_first_grand_summary_row {
 padding-top: 1px;
 padding-bottom: 1px;
 padding-left: 5px;
@@ -1994,7 +1999,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#xvfvnxadzl .gt_last_grand_summary_row_top {
+#wihofkwolu .gt_last_grand_summary_row_top {
 padding-top: 1px;
 padding-bottom: 1px;
 padding-left: 5px;
@@ -2003,10 +2008,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#xvfvnxadzl .gt_striped {
+#wihofkwolu .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#xvfvnxadzl .gt_table_body {
+#wihofkwolu .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -2014,7 +2019,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#xvfvnxadzl .gt_footnotes {
+#wihofkwolu .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2027,7 +2032,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#xvfvnxadzl .gt_footnote {
+#wihofkwolu .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 1px;
@@ -2035,7 +2040,7 @@ padding-bottom: 1px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#xvfvnxadzl .gt_sourcenotes {
+#wihofkwolu .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2048,64 +2053,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#xvfvnxadzl .gt_sourcenote {
+#wihofkwolu .gt_sourcenote {
 font-size: 90%;
 padding-top: 1px;
 padding-bottom: 1px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#xvfvnxadzl .gt_left {
+#wihofkwolu .gt_left {
 text-align: left;
 }
-#xvfvnxadzl .gt_center {
+#wihofkwolu .gt_center {
 text-align: center;
 }
-#xvfvnxadzl .gt_right {
+#wihofkwolu .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#xvfvnxadzl .gt_font_normal {
+#wihofkwolu .gt_font_normal {
 font-weight: normal;
 }
-#xvfvnxadzl .gt_font_bold {
+#wihofkwolu .gt_font_bold {
 font-weight: bold;
 }
-#xvfvnxadzl .gt_font_italic {
+#wihofkwolu .gt_font_italic {
 font-style: italic;
 }
-#xvfvnxadzl .gt_super {
+#wihofkwolu .gt_super {
 font-size: 65%;
 }
-#xvfvnxadzl .gt_footnote_marks {
+#wihofkwolu .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#xvfvnxadzl .gt_asterisk {
+#wihofkwolu .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#xvfvnxadzl .gt_indent_1 {
+#wihofkwolu .gt_indent_1 {
 text-indent: 5px;
 }
-#xvfvnxadzl .gt_indent_2 {
+#wihofkwolu .gt_indent_2 {
 text-indent: 10px;
 }
-#xvfvnxadzl .gt_indent_3 {
+#wihofkwolu .gt_indent_3 {
 text-indent: 15px;
 }
-#xvfvnxadzl .gt_indent_4 {
+#wihofkwolu .gt_indent_4 {
 text-indent: 20px;
 }
-#xvfvnxadzl .gt_indent_5 {
+#wihofkwolu .gt_indent_5 {
 text-indent: 25px;
 }
-#xvfvnxadzl .katex-display {
+#wihofkwolu .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#xvfvnxadzl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#wihofkwolu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -2113,75 +2118,179 @@ height: 0px !important;
   <thead>
     <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class="gt_from_md"><strong>Characteristic</strong></span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_0"><span class="gt_from_md"><strong>N = 821</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_0"><span class="gt_from_md"><strong>Overall</strong><br />
+N = 821</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class="gt_from_md"><strong>No HCT</strong><br />
+N = 129</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class="gt_from_md"><strong>Prior HCT</strong><br />
+N = 692</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value"><span class="gt_from_md"><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Age (years)</td>
-<td headers="stat_0" class="gt_row gt_center">66 (59, 71)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">66 (59, 71)</td>
+<td headers="stat_1" class="gt_row gt_center">70 (61, 75)</td>
+<td headers="stat_2" class="gt_row gt_center">65 (58, 71)</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">ECOG</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.5</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0-1</td>
-<td headers="stat_0" class="gt_row gt_center">728 (95%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">728 (95%)</td>
+<td headers="stat_1" class="gt_row gt_center">110 (93%)</td>
+<td headers="stat_2" class="gt_row gt_center">618 (95%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    ≥2</td>
-<td headers="stat_0" class="gt_row gt_center">42 (5.5%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">42 (5.5%)</td>
+<td headers="stat_1" class="gt_row gt_center">8 (6.8%)</td>
+<td headers="stat_2" class="gt_row gt_center">34 (5.2%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Karnofsky</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&gt;0.9</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    80-100</td>
-<td headers="stat_0" class="gt_row gt_center">589 (76%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">589 (76%)</td>
+<td headers="stat_1" class="gt_row gt_center">90 (76%)</td>
+<td headers="stat_2" class="gt_row gt_center">499 (77%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    &lt;80</td>
-<td headers="stat_0" class="gt_row gt_center">181 (24%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">181 (24%)</td>
+<td headers="stat_1" class="gt_row gt_center">28 (24%)</td>
+<td headers="stat_2" class="gt_row gt_center">153 (23%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Disease</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Multiple myeloma, NOS</td>
-<td headers="stat_0" class="gt_row gt_center">612 (75%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">612 (75%)</td>
+<td headers="stat_1" class="gt_row gt_center">93 (72%)</td>
+<td headers="stat_2" class="gt_row gt_center">519 (75%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Multiple myeloma - light chain only</td>
-<td headers="stat_0" class="gt_row gt_center">179 (22%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">179 (22%)</td>
+<td headers="stat_1" class="gt_row gt_center">33 (26%)</td>
+<td headers="stat_2" class="gt_row gt_center">146 (21%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Multiple myeloma - non-secretory</td>
-<td headers="stat_0" class="gt_row gt_center">17 (2.1%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">17 (2.1%)</td>
+<td headers="stat_1" class="gt_row gt_center">2 (1.6%)</td>
+<td headers="stat_2" class="gt_row gt_center">15 (2.2%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Plasma cell leukemia</td>
-<td headers="stat_0" class="gt_row gt_center">13 (1.6%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">13 (1.6%)</td>
+<td headers="stat_1" class="gt_row gt_center">1 (0.8%)</td>
+<td headers="stat_2" class="gt_row gt_center">12 (1.7%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">ISS</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.006</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Stage 1</td>
-<td headers="stat_0" class="gt_row gt_center">210 (50%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">210 (50%)</td>
+<td headers="stat_1" class="gt_row gt_center">24 (34%)</td>
+<td headers="stat_2" class="gt_row gt_center">186 (53%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Stage 2</td>
-<td headers="stat_0" class="gt_row gt_center">142 (34%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">142 (34%)</td>
+<td headers="stat_1" class="gt_row gt_center">29 (41%)</td>
+<td headers="stat_2" class="gt_row gt_center">113 (32%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Stage 3</td>
-<td headers="stat_0" class="gt_row gt_center">68 (16%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">68 (16%)</td>
+<td headers="stat_1" class="gt_row gt_center">18 (25%)</td>
+<td headers="stat_2" class="gt_row gt_center">50 (14%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Extramedullary plasmacytomas</td>
-<td headers="stat_0" class="gt_row gt_center">85 (17%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">85 (17%)</td>
+<td headers="stat_1" class="gt_row gt_center">11 (15%)</td>
+<td headers="stat_2" class="gt_row gt_center">74 (18%)</td>
+<td headers="p.value" class="gt_row gt_center">0.5</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">BMPCs &gt;50%</td>
-<td headers="stat_0" class="gt_row gt_center">71 (14%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">71 (14%)</td>
+<td headers="stat_1" class="gt_row gt_center">14 (16%)</td>
+<td headers="stat_2" class="gt_row gt_center">57 (14%)</td>
+<td headers="p.value" class="gt_row gt_center">0.6</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Cytogenetic risk</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.6</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Standard</td>
-<td headers="stat_0" class="gt_row gt_center">531 (73%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">531 (73%)</td>
+<td headers="stat_1" class="gt_row gt_center">86 (75%)</td>
+<td headers="stat_2" class="gt_row gt_center">445 (73%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    High</td>
-<td headers="stat_0" class="gt_row gt_center">196 (27%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">196 (27%)</td>
+<td headers="stat_1" class="gt_row gt_center">29 (25%)</td>
+<td headers="stat_2" class="gt_row gt_center">167 (27%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Prior lines of therapy</td>
-<td headers="stat_0" class="gt_row gt_center">7.00 (6.00, 9.00)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">7.00 (6.00, 9.00)</td>
+<td headers="stat_1" class="gt_row gt_center">6.00 (5.00, 8.00)</td>
+<td headers="stat_2" class="gt_row gt_center">7.00 (6.00, 9.00)</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Types of prior HCTs</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Prior auto-HCT</td>
-<td headers="stat_0" class="gt_row gt_center">670 (83%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">670 (83%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">670 (97%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    No prior HCT</td>
-<td headers="stat_0" class="gt_row gt_center">113 (14%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">113 (14%)</td>
+<td headers="stat_1" class="gt_row gt_center">113 (100%)</td>
+<td headers="stat_2" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Prior auto and allo-HCT</td>
-<td headers="stat_0" class="gt_row gt_center">13 (1.6%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">13 (1.6%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">13 (1.9%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Prior allo-HCT</td>
-<td headers="stat_0" class="gt_row gt_center">9 (1.1%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">9 (1.1%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">9 (1.3%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Prior BCMA-targeted therapy</td>
-<td headers="stat_0" class="gt_row gt_center">71 (14%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">71 (14%)</td>
+<td headers="stat_1" class="gt_row gt_center">14 (16%)</td>
+<td headers="stat_2" class="gt_row gt_center">57 (14%)</td>
+<td headers="p.value" class="gt_row gt_center">0.6</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Triple class exposed</td>
-<td headers="stat_0" class="gt_row gt_center">776 (95%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">776 (95%)</td>
+<td headers="stat_1" class="gt_row gt_center">126 (98%)</td>
+<td headers="stat_2" class="gt_row gt_center">650 (94%)</td>
+<td headers="p.value" class="gt_row gt_center">0.10</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Penta-refractory</td>
-<td headers="stat_0" class="gt_row gt_center">490 (60%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">490 (60%)</td>
+<td headers="stat_1" class="gt_row gt_center">83 (64%)</td>
+<td headers="stat_2" class="gt_row gt_center">407 (59%)</td>
+<td headers="p.value" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Time from diagnosis to CAR-T (months)</td>
+<td headers="stat_0" class="gt_row gt_center">72 (44, 110)</td>
+<td headers="stat_1" class="gt_row gt_center">56 (34, 98)</td>
+<td headers="stat_2" class="gt_row gt_center">74 (46, 112)</td>
+<td headers="p.value" class="gt_row gt_center">0.001</td></tr>
   </tbody>
   
   <tfoot class="gt_footnotes">
     <tr>
-      <td class="gt_footnote" colspan="2"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class="gt_from_md">Median (Q1, Q3); n (%)</span></td>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class="gt_from_md">Median (Q1, Q3); n (%)</span></td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> <span class="gt_from_md">Wilcoxon rank sum test; Pearson’s Chi-squared test; Fisher’s exact test</span></td>
     </tr>
   </tfoot>
 </table>
@@ -2232,9 +2341,11 @@ df %&gt;%
       rel == &quot;0&quot; ~ &quot;Censoring - Alive and event free&quot;,
       rel == &quot;1&quot; ~ &quot;Event - Relapse/progression/death&quot;,
       rel == &quot;99&quot; ~ NA
-    )
+    ),
+    Prior.txp = ifelse(ct_priortxtype %in% c(&quot;1&quot;,&quot;2&quot;,&quot;3&quot;),&quot;Prior HCT&quot;,&quot;No HCT&quot;)
   ) %&gt;%
   tbl_summary(
+    by = Prior.txp,
     missing = &quot;ifany&quot;,
     sort = list(all_categorical() ~ &quot;frequency&quot;),
     statistic = list(
@@ -2242,21 +2353,23 @@ df %&gt;%
       all_categorical() ~ &quot;{n} ({p}%)&quot;
     )
   ) %&gt;%
+  add_overall() %&gt;%
+  add_p() %&gt;%
   bold_labels()</code></pre>
-<div id="gfggphrwzw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#gfggphrwzw table {
+<div id="ljoeujgmna" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ljoeujgmna table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#gfggphrwzw thead, #gfggphrwzw tbody, #gfggphrwzw tfoot, #gfggphrwzw tr, #gfggphrwzw td, #gfggphrwzw th {
+#ljoeujgmna thead, #ljoeujgmna tbody, #ljoeujgmna tfoot, #ljoeujgmna tr, #ljoeujgmna td, #ljoeujgmna th {
 border-style: none;
 }
-#gfggphrwzw p {
+#ljoeujgmna p {
 margin: 0;
 padding: 0;
 }
-#gfggphrwzw .gt_table {
+#ljoeujgmna .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -2281,11 +2394,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#gfggphrwzw .gt_caption {
+#ljoeujgmna .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#gfggphrwzw .gt_title {
+#ljoeujgmna .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -2296,7 +2409,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#gfggphrwzw .gt_subtitle {
+#ljoeujgmna .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -2307,7 +2420,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#gfggphrwzw .gt_heading {
+#ljoeujgmna .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -2318,12 +2431,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#gfggphrwzw .gt_bottom_border {
+#ljoeujgmna .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#gfggphrwzw .gt_col_headings {
+#ljoeujgmna .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -2337,7 +2450,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#gfggphrwzw .gt_col_heading {
+#ljoeujgmna .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2356,7 +2469,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#gfggphrwzw .gt_column_spanner_outer {
+#ljoeujgmna .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2367,13 +2480,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#gfggphrwzw .gt_column_spanner_outer:first-child {
+#ljoeujgmna .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#gfggphrwzw .gt_column_spanner_outer:last-child {
+#ljoeujgmna .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#gfggphrwzw .gt_column_spanner {
+#ljoeujgmna .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -2384,10 +2497,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#gfggphrwzw .gt_spanner_row {
+#ljoeujgmna .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#gfggphrwzw .gt_group_heading {
+#ljoeujgmna .gt_group_heading {
 padding-top: 1px;
 padding-bottom: 1px;
 padding-left: 5px;
@@ -2412,7 +2525,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#gfggphrwzw .gt_empty_group_heading {
+#ljoeujgmna .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -2426,13 +2539,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#gfggphrwzw .gt_from_md > :first-child {
+#ljoeujgmna .gt_from_md > :first-child {
 margin-top: 0;
 }
-#gfggphrwzw .gt_from_md > :last-child {
+#ljoeujgmna .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#gfggphrwzw .gt_row {
+#ljoeujgmna .gt_row {
 padding-top: 1px;
 padding-bottom: 1px;
 padding-left: 5px;
@@ -2450,7 +2563,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#gfggphrwzw .gt_stub {
+#ljoeujgmna .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2462,7 +2575,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#gfggphrwzw .gt_stub_row_group {
+#ljoeujgmna .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2475,13 +2588,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#gfggphrwzw .gt_row_group_first td {
+#ljoeujgmna .gt_row_group_first td {
 border-top-width: 2px;
 }
-#gfggphrwzw .gt_row_group_first th {
+#ljoeujgmna .gt_row_group_first th {
 border-top-width: 2px;
 }
-#gfggphrwzw .gt_summary_row {
+#ljoeujgmna .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -2490,14 +2603,14 @@ padding-bottom: 1px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#gfggphrwzw .gt_first_summary_row {
+#ljoeujgmna .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#gfggphrwzw .gt_first_summary_row.thick {
+#ljoeujgmna .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#gfggphrwzw .gt_last_summary_row {
+#ljoeujgmna .gt_last_summary_row {
 padding-top: 1px;
 padding-bottom: 1px;
 padding-left: 5px;
@@ -2506,7 +2619,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#gfggphrwzw .gt_grand_summary_row {
+#ljoeujgmna .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -2515,7 +2628,7 @@ padding-bottom: 1px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#gfggphrwzw .gt_first_grand_summary_row {
+#ljoeujgmna .gt_first_grand_summary_row {
 padding-top: 1px;
 padding-bottom: 1px;
 padding-left: 5px;
@@ -2524,7 +2637,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#gfggphrwzw .gt_last_grand_summary_row_top {
+#ljoeujgmna .gt_last_grand_summary_row_top {
 padding-top: 1px;
 padding-bottom: 1px;
 padding-left: 5px;
@@ -2533,10 +2646,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#gfggphrwzw .gt_striped {
+#ljoeujgmna .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#gfggphrwzw .gt_table_body {
+#ljoeujgmna .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -2544,7 +2657,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#gfggphrwzw .gt_footnotes {
+#ljoeujgmna .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2557,7 +2670,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#gfggphrwzw .gt_footnote {
+#ljoeujgmna .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 1px;
@@ -2565,7 +2678,7 @@ padding-bottom: 1px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#gfggphrwzw .gt_sourcenotes {
+#ljoeujgmna .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2578,64 +2691,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#gfggphrwzw .gt_sourcenote {
+#ljoeujgmna .gt_sourcenote {
 font-size: 90%;
 padding-top: 1px;
 padding-bottom: 1px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#gfggphrwzw .gt_left {
+#ljoeujgmna .gt_left {
 text-align: left;
 }
-#gfggphrwzw .gt_center {
+#ljoeujgmna .gt_center {
 text-align: center;
 }
-#gfggphrwzw .gt_right {
+#ljoeujgmna .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#gfggphrwzw .gt_font_normal {
+#ljoeujgmna .gt_font_normal {
 font-weight: normal;
 }
-#gfggphrwzw .gt_font_bold {
+#ljoeujgmna .gt_font_bold {
 font-weight: bold;
 }
-#gfggphrwzw .gt_font_italic {
+#ljoeujgmna .gt_font_italic {
 font-style: italic;
 }
-#gfggphrwzw .gt_super {
+#ljoeujgmna .gt_super {
 font-size: 65%;
 }
-#gfggphrwzw .gt_footnote_marks {
+#ljoeujgmna .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#gfggphrwzw .gt_asterisk {
+#ljoeujgmna .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#gfggphrwzw .gt_indent_1 {
+#ljoeujgmna .gt_indent_1 {
 text-indent: 5px;
 }
-#gfggphrwzw .gt_indent_2 {
+#ljoeujgmna .gt_indent_2 {
 text-indent: 10px;
 }
-#gfggphrwzw .gt_indent_3 {
+#ljoeujgmna .gt_indent_3 {
 text-indent: 15px;
 }
-#gfggphrwzw .gt_indent_4 {
+#ljoeujgmna .gt_indent_4 {
 text-indent: 20px;
 }
-#gfggphrwzw .gt_indent_5 {
+#ljoeujgmna .gt_indent_5 {
 text-indent: 25px;
 }
-#gfggphrwzw .katex-display {
+#ljoeujgmna .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#gfggphrwzw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ljoeujgmna div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -2643,63 +2756,687 @@ height: 0px !important;
   <thead>
     <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class="gt_from_md"><strong>Characteristic</strong></span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_0"><span class="gt_from_md"><strong>N = 821</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_0"><span class="gt_from_md"><strong>Overall</strong><br />
+N = 821</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class="gt_from_md"><strong>No HCT</strong><br />
+N = 129</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class="gt_from_md"><strong>Prior HCT</strong><br />
+N = 692</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value"><span class="gt_from_md"><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Best response</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.5</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Continued CR</td>
-<td headers="stat_0" class="gt_row gt_center">728 (95%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">728 (95%)</td>
+<td headers="stat_1" class="gt_row gt_center">110 (93%)</td>
+<td headers="stat_2" class="gt_row gt_center">618 (95%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    sCR</td>
-<td headers="stat_0" class="gt_row gt_center">42 (5.5%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">42 (5.5%)</td>
+<td headers="stat_1" class="gt_row gt_center">8 (6.8%)</td>
+<td headers="stat_2" class="gt_row gt_center">34 (5.2%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
-<td headers="stat_0" class="gt_row gt_center">51</td></tr>
+<td headers="stat_0" class="gt_row gt_center">51</td>
+<td headers="stat_1" class="gt_row gt_center">11</td>
+<td headers="stat_2" class="gt_row gt_center">40</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Overall response</td>
-<td headers="stat_0" class="gt_row gt_center">592 (73%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">592 (73%)</td>
+<td headers="stat_1" class="gt_row gt_center">86 (68%)</td>
+<td headers="stat_2" class="gt_row gt_center">506 (74%)</td>
+<td headers="p.value" class="gt_row gt_center">0.2</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
-<td headers="stat_0" class="gt_row gt_center">11</td></tr>
+<td headers="stat_0" class="gt_row gt_center">11</td>
+<td headers="stat_1" class="gt_row gt_center">3</td>
+<td headers="stat_2" class="gt_row gt_center">8</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">CR or better</td>
-<td headers="stat_0" class="gt_row gt_center">204 (25%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">204 (25%)</td>
+<td headers="stat_1" class="gt_row gt_center">28 (22%)</td>
+<td headers="stat_2" class="gt_row gt_center">176 (26%)</td>
+<td headers="p.value" class="gt_row gt_center">0.4</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
-<td headers="stat_0" class="gt_row gt_center">11</td></tr>
+<td headers="stat_0" class="gt_row gt_center">11</td>
+<td headers="stat_1" class="gt_row gt_center">3</td>
+<td headers="stat_2" class="gt_row gt_center">8</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Time to best response (months)</td>
-<td headers="stat_0" class="gt_row gt_center">2.60 (1.05, 3.32)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">2.60 (1.05, 3.32)</td>
+<td headers="stat_1" class="gt_row gt_center">2.63 (1.09, 3.45)</td>
+<td headers="stat_2" class="gt_row gt_center">2.57 (1.05, 3.29)</td>
+<td headers="p.value" class="gt_row gt_center">0.8</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
-<td headers="stat_0" class="gt_row gt_center">42</td></tr>
+<td headers="stat_0" class="gt_row gt_center">42</td>
+<td headers="stat_1" class="gt_row gt_center">7</td>
+<td headers="stat_2" class="gt_row gt_center">35</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Time to overall response (months)</td>
-<td headers="stat_0" class="gt_row gt_center">3.1 (1.8, 5.5)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">3.1 (1.8, 5.5)</td>
+<td headers="stat_1" class="gt_row gt_center">3.2 (2.0, 5.8)</td>
+<td headers="stat_2" class="gt_row gt_center">3.1 (1.8, 5.3)</td>
+<td headers="p.value" class="gt_row gt_center">0.4</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Survival</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.8</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Alive at the last contact</td>
-<td headers="stat_0" class="gt_row gt_center">593 (72%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">593 (72%)</td>
+<td headers="stat_1" class="gt_row gt_center">94 (73%)</td>
+<td headers="stat_2" class="gt_row gt_center">499 (72%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Dead</td>
-<td headers="stat_0" class="gt_row gt_center">227 (28%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">227 (28%)</td>
+<td headers="stat_1" class="gt_row gt_center">34 (27%)</td>
+<td headers="stat_2" class="gt_row gt_center">193 (28%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
-<td headers="stat_0" class="gt_row gt_center">1</td></tr>
+<td headers="stat_0" class="gt_row gt_center">1</td>
+<td headers="stat_1" class="gt_row gt_center">1</td>
+<td headers="stat_2" class="gt_row gt_center">0</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Relapse</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&gt;0.9</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Alive and progression-free</td>
-<td headers="stat_0" class="gt_row gt_center">408 (50%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">408 (50%)</td>
+<td headers="stat_1" class="gt_row gt_center">61 (48%)</td>
+<td headers="stat_2" class="gt_row gt_center">347 (50%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Event - Relapse/progression/treatment failure/death due to primary disease</td>
-<td headers="stat_0" class="gt_row gt_center">372 (46%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">372 (46%)</td>
+<td headers="stat_1" class="gt_row gt_center">59 (47%)</td>
+<td headers="stat_2" class="gt_row gt_center">313 (45%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Competing risk - Death due to other causes</td>
-<td headers="stat_0" class="gt_row gt_center">35 (4.3%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">35 (4.3%)</td>
+<td headers="stat_1" class="gt_row gt_center">6 (4.8%)</td>
+<td headers="stat_2" class="gt_row gt_center">29 (4.2%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
-<td headers="stat_0" class="gt_row gt_center">6</td></tr>
+<td headers="stat_0" class="gt_row gt_center">6</td>
+<td headers="stat_1" class="gt_row gt_center">3</td>
+<td headers="stat_2" class="gt_row gt_center">3</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">PFS</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Censoring - Alive and event free</td>
-<td headers="stat_0" class="gt_row gt_center">408 (52%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">408 (52%)</td>
+<td headers="stat_1" class="gt_row gt_center">61 (51%)</td>
+<td headers="stat_2" class="gt_row gt_center">347 (53%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Event - Relapse/progression/death</td>
-<td headers="stat_0" class="gt_row gt_center">372 (48%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">372 (48%)</td>
+<td headers="stat_1" class="gt_row gt_center">59 (49%)</td>
+<td headers="stat_2" class="gt_row gt_center">313 (47%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
-<td headers="stat_0" class="gt_row gt_center">41</td></tr>
+<td headers="stat_0" class="gt_row gt_center">41</td>
+<td headers="stat_1" class="gt_row gt_center">9</td>
+<td headers="stat_2" class="gt_row gt_center">32</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
   </tbody>
   
   <tfoot class="gt_footnotes">
     <tr>
-      <td class="gt_footnote" colspan="2"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class="gt_from_md">n (%); Median (Q1, Q3)</span></td>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class="gt_from_md">n (%); Median (Q1, Q3)</span></td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> <span class="gt_from_md">Pearson’s Chi-squared test; Wilcoxon rank sum test</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+<div id="toxicity" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Toxicity</h2>
+<pre class="r"><code>theme_gtsummary_compact()
+
+df %&gt;%
+  transmute(
+    &quot;CRS&quot; = case_when(
+      ct_crsgrade_100d == &quot;0&quot; ~ &quot;No CRS&quot;,
+      ct_crsgrade_100d == &quot;1&quot; ~ &quot;Grade 1&quot;,
+      ct_crsgrade_100d == &quot;2&quot; ~ &quot;Grade 2&quot;,
+      ct_crsgrade_100d == &quot;3&quot; ~ &quot;Grade 3&quot;,
+      ct_crsgrade_100d == &quot;4&quot; ~ &quot;Grade 4&quot;,
+      ct_crsgrade_100d == &quot;5&quot; ~ &quot;Grade 5&quot;,
+      ct_crsgrade_100d == &quot;97&quot; ~ NA,
+      ct_crsgrade_100d == &quot;99&quot; ~ NA
+    ),
+    &quot;Neurotox&quot; = case_when(
+      ct_neutoxgrade_100d == &quot;0&quot; ~ &quot;No CRS&quot;,
+      ct_neutoxgrade_100d == &quot;1&quot; ~ &quot;Grade 1&quot;,
+      ct_neutoxgrade_100d == &quot;2&quot; ~ &quot;Grade 2&quot;,
+      ct_neutoxgrade_100d == &quot;3&quot; ~ &quot;Grade 3&quot;,
+      ct_neutoxgrade_100d == &quot;4&quot; ~ &quot;Grade 4&quot;,
+      ct_neutoxgrade_100d == &quot;5&quot; ~ &quot;Grade 5&quot;,
+      ct_neutoxgrade_100d == &quot;97&quot; ~ NA,
+      ct_neutoxgrade_100d == &quot;99&quot; ~ NA
+    ),
+    Prior.txp = ifelse(ct_priortxtype %in% c(&quot;1&quot;,&quot;2&quot;,&quot;3&quot;),&quot;Prior HCT&quot;,&quot;No HCT&quot;)
+  ) %&gt;%
+  tbl_summary(
+    by = Prior.txp,
+    missing = &quot;ifany&quot;,
+    #sort = list(all_categorical() ~ &quot;frequency&quot;),
+    statistic = list(
+      all_continuous() ~ &quot;{median} ({p25}, {p75})&quot;,
+      all_categorical() ~ &quot;{n} ({p}%)&quot;
+    )
+  ) %&gt;%
+  add_overall() %&gt;%
+  add_p() %&gt;%
+  bold_labels()</code></pre>
+<div id="snmmevndew" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#snmmevndew table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#snmmevndew thead, #snmmevndew tbody, #snmmevndew tfoot, #snmmevndew tr, #snmmevndew td, #snmmevndew th {
+border-style: none;
+}
+#snmmevndew p {
+margin: 0;
+padding: 0;
+}
+#snmmevndew .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 13px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#snmmevndew .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#snmmevndew .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#snmmevndew .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#snmmevndew .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#snmmevndew .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#snmmevndew .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#snmmevndew .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#snmmevndew .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#snmmevndew .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#snmmevndew .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#snmmevndew .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#snmmevndew .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#snmmevndew .gt_group_heading {
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#snmmevndew .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#snmmevndew .gt_from_md > :first-child {
+margin-top: 0;
+}
+#snmmevndew .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#snmmevndew .gt_row {
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#snmmevndew .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#snmmevndew .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#snmmevndew .gt_row_group_first td {
+border-top-width: 2px;
+}
+#snmmevndew .gt_row_group_first th {
+border-top-width: 2px;
+}
+#snmmevndew .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#snmmevndew .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#snmmevndew .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#snmmevndew .gt_last_summary_row {
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#snmmevndew .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#snmmevndew .gt_first_grand_summary_row {
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#snmmevndew .gt_last_grand_summary_row_top {
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#snmmevndew .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#snmmevndew .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#snmmevndew .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#snmmevndew .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#snmmevndew .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#snmmevndew .gt_sourcenote {
+font-size: 90%;
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#snmmevndew .gt_left {
+text-align: left;
+}
+#snmmevndew .gt_center {
+text-align: center;
+}
+#snmmevndew .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#snmmevndew .gt_font_normal {
+font-weight: normal;
+}
+#snmmevndew .gt_font_bold {
+font-weight: bold;
+}
+#snmmevndew .gt_font_italic {
+font-style: italic;
+}
+#snmmevndew .gt_super {
+font-size: 65%;
+}
+#snmmevndew .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#snmmevndew .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#snmmevndew .gt_indent_1 {
+text-indent: 5px;
+}
+#snmmevndew .gt_indent_2 {
+text-indent: 10px;
+}
+#snmmevndew .gt_indent_3 {
+text-indent: 15px;
+}
+#snmmevndew .gt_indent_4 {
+text-indent: 20px;
+}
+#snmmevndew .gt_indent_5 {
+text-indent: 25px;
+}
+#snmmevndew .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#snmmevndew div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class="gt_from_md"><strong>Characteristic</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_0"><span class="gt_from_md"><strong>Overall</strong><br />
+N = 821</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class="gt_from_md"><strong>No HCT</strong><br />
+N = 129</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class="gt_from_md"><strong>Prior HCT</strong><br />
+N = 692</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value"><span class="gt_from_md"><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">CRS</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.6</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Grade 1</td>
+<td headers="stat_0" class="gt_row gt_center">470 (58%)</td>
+<td headers="stat_1" class="gt_row gt_center">75 (59%)</td>
+<td headers="stat_2" class="gt_row gt_center">395 (58%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Grade 2</td>
+<td headers="stat_0" class="gt_row gt_center">155 (19%)</td>
+<td headers="stat_1" class="gt_row gt_center">21 (16%)</td>
+<td headers="stat_2" class="gt_row gt_center">134 (20%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Grade 3</td>
+<td headers="stat_0" class="gt_row gt_center">9 (1.1%)</td>
+<td headers="stat_1" class="gt_row gt_center">3 (2.3%)</td>
+<td headers="stat_2" class="gt_row gt_center">6 (0.9%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Grade 4</td>
+<td headers="stat_0" class="gt_row gt_center">11 (1.4%)</td>
+<td headers="stat_1" class="gt_row gt_center">2 (1.6%)</td>
+<td headers="stat_2" class="gt_row gt_center">9 (1.3%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Grade 5</td>
+<td headers="stat_0" class="gt_row gt_center">4 (0.5%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">4 (0.6%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No CRS</td>
+<td headers="stat_0" class="gt_row gt_center">164 (20%)</td>
+<td headers="stat_1" class="gt_row gt_center">27 (21%)</td>
+<td headers="stat_2" class="gt_row gt_center">137 (20%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_0" class="gt_row gt_center">8</td>
+<td headers="stat_1" class="gt_row gt_center">1</td>
+<td headers="stat_2" class="gt_row gt_center">7</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Neurotox</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Grade 1</td>
+<td headers="stat_0" class="gt_row gt_center">99 (13%)</td>
+<td headers="stat_1" class="gt_row gt_center">18 (15%)</td>
+<td headers="stat_2" class="gt_row gt_center">81 (12%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Grade 2</td>
+<td headers="stat_0" class="gt_row gt_center">43 (5.6%)</td>
+<td headers="stat_1" class="gt_row gt_center">9 (7.6%)</td>
+<td headers="stat_2" class="gt_row gt_center">34 (5.2%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Grade 3</td>
+<td headers="stat_0" class="gt_row gt_center">26 (3.4%)</td>
+<td headers="stat_1" class="gt_row gt_center">4 (3.4%)</td>
+<td headers="stat_2" class="gt_row gt_center">22 (3.4%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Grade 4</td>
+<td headers="stat_0" class="gt_row gt_center">12 (1.6%)</td>
+<td headers="stat_1" class="gt_row gt_center">2 (1.7%)</td>
+<td headers="stat_2" class="gt_row gt_center">10 (1.5%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Grade 5</td>
+<td headers="stat_0" class="gt_row gt_center">1 (0.1%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">1 (0.2%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No CRS</td>
+<td headers="stat_0" class="gt_row gt_center">590 (77%)</td>
+<td headers="stat_1" class="gt_row gt_center">86 (72%)</td>
+<td headers="stat_2" class="gt_row gt_center">504 (77%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_0" class="gt_row gt_center">50</td>
+<td headers="stat_1" class="gt_row gt_center">10</td>
+<td headers="stat_2" class="gt_row gt_center">40</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class="gt_from_md">n (%)</span></td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> <span class="gt_from_md">Fisher’s exact test</span></td>
     </tr>
   </tfoot>
 </table>
@@ -3989,6 +4726,1107 @@ knitr::include_graphics(&quot;svg/FIGURE2.svg&quot;)</code></pre>
 <text x="82.23" y="601.93" style="font-size: 10.00px; font-family: &quot;Arial&quot;;" textLength="65.01px" lengthAdjust="spacingAndGlyphs">Number at risk</text>
 </g>
 </svg><!-- --></p>
+</div>
+</div>
+<div id="regression-analysis" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> REGRESSION
+ANALYSIS</h1>
+<div id="response-crscr-pfs-os-dor-crs-neurotox" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Response, CR/sCR,
+PFS, OS, DOR, CRS, Neurotox</h2>
+<pre class="r"><code>options(gtsummary.add_p_footnote = FALSE, gtsummary.add_estimate_to_reference_rows = FALSE)
+theme_gtsummary_compact()</code></pre>
+<pre><code>## Setting theme &quot;Compact&quot;</code></pre>
+<pre class="r"><code>data1 &lt;- df %&gt;%
+  transmute(
+    pfs = case_when(
+      rel == &quot;0&quot; ~ 0,
+      rel == &quot;1&quot; ~ 1,
+      rel == &quot;99&quot; ~ NA
+    ),
+    Death = case_when(
+      dead == &quot;0&quot; ~ 0,
+      dead == &quot;1&quot; ~ 1,
+      dead == &quot;99&quot; ~ NA
+    ),
+    Prior.HCT = case_when(
+      ct_priortxtype == &quot;0&quot; ~ 0,
+      ct_priortxtype == &quot;1&quot; ~ 1,
+      ct_priortxtype == &quot;2&quot; ~ 1,
+      ct_priortxtype == &quot;3&quot; ~ 1,
+      ct_priortxtype == &quot;99&quot; ~ NA
+    ),
+    &quot;ECOG 2+&quot; = case_when(
+      ct_ecogprgp == &quot;0&quot; ~ 0,
+      ct_ecogprgp == &quot;1&quot; ~ 1,
+      ct_priortxtype == &quot;99&quot; ~ NA
+    ),
+    EMD = case_when(
+      ct_petctemppr == &quot;0&quot; ~ 0,
+      ct_petctemppr == &quot;1&quot; ~ 1,
+      ct_petctemppr == &quot;99&quot; ~ NA
+    ),
+    High.risk = case_when(
+      ct_cytorisk == &quot;0&quot; ~ 0,
+      ct_cytorisk == &quot;1&quot; ~ 1,
+      ct_cytorisk == &quot;99&quot; ~ NA
+    ),
+    ORR = case_when(
+      ct_orr_l1 == &quot;0&quot; ~ 0,
+      ct_orr_l1 == &quot;1&quot; ~ 1,
+      ct_orr_l1 == &quot;99&quot; ~ NA
+    ),
+    CR = case_when(
+      ct_cr_l1 == &quot;0&quot; ~ 0,
+      ct_cr_l1 == &quot;1&quot; ~ 1,
+      ct_cr_l1 == &quot;99&quot; ~ NA
+    ),
+    LOT = case_when(
+      ct_ntreatpr_hct != &quot;99&quot; ~ ct_ntreatpr_hct,
+      ct_ntreatpr_hct == &quot;99&quot; ~ NA
+    ),
+    &quot;CRS G2+&quot; = case_when(
+      ct_crsgrade_100d == &quot;0&quot; ~ 0,
+      ct_crsgrade_100d == &quot;1&quot; ~ 0,
+      ct_crsgrade_100d == &quot;2&quot; ~ 1,
+      ct_crsgrade_100d == &quot;3&quot; ~ 1,
+      ct_crsgrade_100d == &quot;4&quot; ~ 1,
+      ct_crsgrade_100d == &quot;5&quot; ~ 1,
+      ct_crsgrade_100d == &quot;97&quot; ~ NA,
+      ct_crsgrade_100d == &quot;99&quot; ~ NA
+    ),
+    &quot;Neurotox G2+&quot; = case_when(
+      ct_neutoxgrade_100d == &quot;0&quot; ~ 0,
+      ct_neutoxgrade_100d == &quot;1&quot; ~ 0,
+      ct_neutoxgrade_100d == &quot;2&quot; ~ 1,
+      ct_neutoxgrade_100d == &quot;3&quot; ~ 1,
+      ct_neutoxgrade_100d == &quot;4&quot; ~ 1,
+      ct_neutoxgrade_100d == &quot;5&quot; ~ 1,
+      ct_neutoxgrade_100d == &quot;97&quot; ~ NA,
+      ct_neutoxgrade_100d == &quot;99&quot; ~ NA
+    ),
+    pfs,
+    intpfs,
+    intctrel,
+    inctsurv,
+    intctorr,
+    age = age/10, ## Scaled per 10 yrs
+    sex,
+    Years.since.dx = intdxct_month/12
+  )
+
+data_dor &lt;- data1 %&gt;%
+  filter(ORR == 1 &amp; intpfs - intctorr * 30 &gt;=0) %&gt;% ## Patient achieved ≥PR
+  mutate(
+    dor = intpfs - intctorr * 30,
+  )
+
+preds1 = c(&quot;ORR&quot;, &quot;age&quot;, &quot;ECOG 2+&quot;, &quot;EMD&quot;, &quot;High.risk&quot;, &quot;Prior.HCT&quot;, &quot;LOT&quot;, &quot;Years.since.dx&quot;)
+preds2 = c(&quot;CR&quot;, &quot;age&quot;, &quot;ECOG 2+&quot;, &quot;EMD&quot;, &quot;High.risk&quot;, &quot;Prior.HCT&quot;,&quot;LOT&quot;,&quot;Years.since.dx&quot;)
+preds3 = c(&quot;inctsurv&quot;, &quot;Death&quot;, &quot;age&quot;, &quot;ECOG 2+&quot;, &quot;EMD&quot;, &quot;High.risk&quot;, &quot;Prior.HCT&quot;,&quot;LOT&quot;,&quot;Years.since.dx&quot;)
+preds4 = c(&quot;intpfs&quot;, &quot;pfs&quot;, &quot;age&quot;, &quot;ECOG 2+&quot;, &quot;EMD&quot;, &quot;High.risk&quot;, &quot;Prior.HCT&quot;,&quot;LOT&quot;,&quot;Years.since.dx&quot;)
+preds5 = c(&quot;dor&quot;, &quot;pfs&quot;, &quot;age&quot;, &quot;ECOG 2+&quot;, &quot;EMD&quot;, &quot;High.risk&quot;, &quot;Prior.HCT&quot;,&quot;LOT&quot;,&quot;Years.since.dx&quot;)
+preds6 = c(&quot;CRS G2+&quot;, &quot;age&quot;, &quot;ECOG 2+&quot;, &quot;EMD&quot;, &quot;High.risk&quot;, &quot;Prior.HCT&quot;,&quot;LOT&quot;,&quot;Years.since.dx&quot;)
+preds7 = c(&quot;Neurotox G2+&quot;, &quot;age&quot;, &quot;ECOG 2+&quot;, &quot;EMD&quot;, &quot;High.risk&quot;, &quot;Prior.HCT&quot;,&quot;LOT&quot;,&quot;Years.since.dx&quot;)
+
+## Response
+uv_tab &lt;- tbl_uvregression(
+  data1 %&gt;%
+    dplyr::select(all_of(preds1)),
+  method = glm,
+  y = ORR,
+  method.args = list(family = binomial),
+  exponentiate = TRUE,
+  add_estimate_to_reference_rows = FALSE
+) %&gt;% modify_header(estimate = &quot;**Estimate**&quot;)
+
+mv_tab&lt;-glm( ORR ~  `ECOG 2+` + age +  EMD + High.risk + Prior.HCT + LOT + Years.since.dx, data1 %&gt;%
+    dplyr::select(all_of(preds1)) , family = binomial ) %&gt;%
+  tbl_regression(exponentiate=TRUE) %&gt;% modify_header(estimate = &quot;**Estimate**&quot;) 
+
+table_response &lt;- tbl_merge(
+  list(uv_tab, mv_tab),
+  tab_spanner = c(&quot;**Univariate**&quot;, &quot;**Multivariable**&quot;)
+) 
+
+
+## CR or better
+uv_tab &lt;- tbl_uvregression(
+  data1 %&gt;%
+    dplyr::select(all_of(preds2)),
+  method = glm,
+  y = CR,
+  method.args = list(family = binomial),
+  exponentiate = TRUE,
+  add_estimate_to_reference_rows = FALSE
+) %&gt;% modify_header(estimate = &quot;**Estimate**&quot;)
+
+mv_tab&lt;-glm( CR ~  `ECOG 2+` + age +  EMD + High.risk + Prior.HCT + LOT + Years.since.dx, data1 %&gt;%
+    dplyr::select(all_of(preds2)) , family = binomial ) %&gt;%
+  tbl_regression(exponentiate=TRUE) %&gt;% modify_header(estimate = &quot;**Estimate**&quot;)
+
+table_CR &lt;- tbl_merge(
+  list(uv_tab, mv_tab),
+  tab_spanner = c(&quot;**Univariate**&quot;, &quot;**Multivariable**&quot;)
+) 
+
+
+## OS
+
+uv_tab &lt;- tbl_uvregression(
+  data1[c(preds3)],
+  method = coxph,
+  y = Surv(data1$inctsurv, data1$Death),
+  exponentiate = TRUE
+) %&gt;% modify_header(estimate = &quot;**Estimate**&quot;)
+
+mv_tab&lt;-coxph( Surv(inctsurv, Death) ~  `ECOG 2+` + age +  EMD + High.risk + Prior.HCT + LOT + Years.since.dx, data1) %&gt;%
+  tbl_regression(exponentiate=TRUE) %&gt;% modify_header(estimate = &quot;**Estimate**&quot;)
+
+table_os &lt;- tbl_merge(
+  list(uv_tab, mv_tab),
+  tab_spanner = c(&quot;**Univariate**&quot;, &quot;**Multivariable**&quot;)
+) 
+
+
+## PFS
+uv_tab &lt;- tbl_uvregression(
+  data1[c(preds4)],
+  method = coxph,
+  y = Surv(data1$intpfs, data1$pfs),
+  exponentiate = TRUE
+) %&gt;% modify_header(estimate = &quot;**Estimate**&quot;)
+
+mv_tab&lt;-coxph( Surv(intpfs, pfs) ~  `ECOG 2+` + age +  EMD + High.risk + Prior.HCT + LOT + Years.since.dx, data1) %&gt;%
+  tbl_regression(exponentiate=TRUE) %&gt;% modify_header(estimate = &quot;**Estimate**&quot;)
+
+table_pfs &lt;- tbl_merge(
+  list(uv_tab, mv_tab),
+  tab_spanner = c(&quot;**Univariate**&quot;, &quot;**Multivariable**&quot;)
+)
+
+## DOR
+uv_tab &lt;- tbl_uvregression(
+  data_dor[c(preds5)],
+  method = coxph,
+  y = Surv(data_dor$dor, data_dor$pfs),
+  exponentiate = TRUE
+) %&gt;% modify_header(estimate = &quot;**Estimate**&quot;)
+
+mv_tab&lt;-coxph( Surv(  dor, pfs) ~ `ECOG 2+` + age +  EMD + High.risk + Prior.HCT + LOT + Years.since.dx, data_dor) %&gt;%
+  tbl_regression(exponentiate=TRUE) %&gt;% modify_header(estimate = &quot;**Estimate**&quot;)
+
+table_dor &lt;- tbl_merge(
+  list(uv_tab, mv_tab),
+  tab_spanner = c(&quot;**Univariate**&quot;, &quot;**Multivariable**&quot;)
+)
+
+## CRS G2+
+uv_tab &lt;- tbl_uvregression(
+  data1 %&gt;%
+    dplyr::select(all_of(preds6)),
+  method = glm,
+  y = `CRS G2+`,
+  method.args = list(family = binomial),
+  exponentiate = TRUE,
+  add_estimate_to_reference_rows = FALSE
+) %&gt;% modify_header(estimate = &quot;**Estimate**&quot;)
+
+mv_tab&lt;-glm( `CRS G2+` ~  `ECOG 2+` + age +  EMD + High.risk + Prior.HCT + LOT + Years.since.dx, data1 %&gt;%
+    dplyr::select(all_of(preds6)) , family = binomial ) %&gt;%
+  tbl_regression(exponentiate=TRUE) %&gt;% modify_header(estimate = &quot;**Estimate**&quot;) 
+
+table_CRS.2&lt;- tbl_merge(
+  list(uv_tab, mv_tab),
+  tab_spanner = c(&quot;**Univariate**&quot;, &quot;**Multivariable**&quot;)
+) 
+
+## Neurotox G2+
+uv_tab &lt;- tbl_uvregression(
+  data1 %&gt;%
+    dplyr::select(all_of(preds7)),
+  method = glm,
+  y = `Neurotox G2+`,
+  method.args = list(family = binomial),
+  exponentiate = TRUE,
+  add_estimate_to_reference_rows = FALSE
+) %&gt;% modify_header(estimate = &quot;**Estimate**&quot;)
+
+mv_tab&lt;-glm( `Neurotox G2+` ~  `ECOG 2+` + age +  EMD + High.risk + Prior.HCT + LOT + Years.since.dx, data1 %&gt;%
+    dplyr::select(all_of(preds7)) , family = binomial ) %&gt;%
+  tbl_regression(exponentiate=TRUE) %&gt;% modify_header(estimate = &quot;**Estimate**&quot;) 
+
+table_neurotox.2&lt;- tbl_merge(
+  list(uv_tab, mv_tab),
+  tab_spanner = c(&quot;**Univariate**&quot;, &quot;**Multivariable**&quot;)
+) 
+
+
+# Combine all tables into one
+final_table &lt;- tbl_stack(
+  list(
+    table_response %&gt;% modify_header() %&gt;% modify_footnote(everything() ~ NA, abbreviation = TRUE) %&gt;%
+      modify_footnote(estimate_1 ~ &quot;Estimate = Beta, odds ratio, or hazard ratio; Age per 10 yrs&quot;, abbreviation = TRUE),
+    table_CR,
+    table_os,
+    table_pfs,
+    table_dor,
+    table_CRS.2,
+    table_neurotox.2
+  ),
+  group_header = c(
+    &quot;Response&quot;,
+    &quot;CR/sCR&quot;,
+    &quot;Overall Survival&quot;,
+    &quot;Progression-free Survival&quot;,
+    &quot;Duration of Response&quot;,
+    &quot;CRS G2+&quot;,
+    &quot;Neurotox G2+&quot;
+  )
+) %&gt;%
+  modify_column_indent(columns = &quot;label&quot;, indent = 1L)
+  
+final_table</code></pre>
+<div id="skvbdivsci" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#skvbdivsci table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#skvbdivsci thead, #skvbdivsci tbody, #skvbdivsci tfoot, #skvbdivsci tr, #skvbdivsci td, #skvbdivsci th {
+border-style: none;
+}
+#skvbdivsci p {
+margin: 0;
+padding: 0;
+}
+#skvbdivsci .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 13px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#skvbdivsci .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#skvbdivsci .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#skvbdivsci .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#skvbdivsci .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#skvbdivsci .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#skvbdivsci .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#skvbdivsci .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#skvbdivsci .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#skvbdivsci .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#skvbdivsci .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#skvbdivsci .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#skvbdivsci .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#skvbdivsci .gt_group_heading {
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#skvbdivsci .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#skvbdivsci .gt_from_md > :first-child {
+margin-top: 0;
+}
+#skvbdivsci .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#skvbdivsci .gt_row {
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#skvbdivsci .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#skvbdivsci .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#skvbdivsci .gt_row_group_first td {
+border-top-width: 2px;
+}
+#skvbdivsci .gt_row_group_first th {
+border-top-width: 2px;
+}
+#skvbdivsci .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#skvbdivsci .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#skvbdivsci .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#skvbdivsci .gt_last_summary_row {
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#skvbdivsci .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#skvbdivsci .gt_first_grand_summary_row {
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#skvbdivsci .gt_last_grand_summary_row_top {
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#skvbdivsci .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#skvbdivsci .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#skvbdivsci .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#skvbdivsci .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#skvbdivsci .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#skvbdivsci .gt_sourcenote {
+font-size: 90%;
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#skvbdivsci .gt_left {
+text-align: left;
+}
+#skvbdivsci .gt_center {
+text-align: center;
+}
+#skvbdivsci .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#skvbdivsci .gt_font_normal {
+font-weight: normal;
+}
+#skvbdivsci .gt_font_bold {
+font-weight: bold;
+}
+#skvbdivsci .gt_font_italic {
+font-style: italic;
+}
+#skvbdivsci .gt_super {
+font-size: 65%;
+}
+#skvbdivsci .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#skvbdivsci .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#skvbdivsci .gt_indent_1 {
+text-indent: 5px;
+}
+#skvbdivsci .gt_indent_2 {
+text-indent: 10px;
+}
+#skvbdivsci .gt_indent_3 {
+text-indent: 15px;
+}
+#skvbdivsci .gt_indent_4 {
+text-indent: 20px;
+}
+#skvbdivsci .gt_indent_5 {
+text-indent: 25px;
+}
+#skvbdivsci .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#skvbdivsci div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="label"><span class="gt_from_md"><strong>Characteristic</strong></span></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup" id="**Univariate**">
+        <div class="gt_column_spanner"><span class="gt_from_md"><strong>Univariate</strong></span></div>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup" id="**Multivariable**">
+        <div class="gt_column_spanner"><span class="gt_from_md"><strong>Multivariable</strong></span></div>
+      </th>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_n_1"><span class="gt_from_md"><strong>N</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_1"><span class="gt_from_md"><strong>Estimate</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low_1"><span class="gt_from_md"><strong>95% CI</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value_1"><span class="gt_from_md"><strong>p-value</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_2"><span class="gt_from_md"><strong>Estimate</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low_2"><span class="gt_from_md"><strong>95% CI</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value_2"><span class="gt_from_md"><strong>p-value</strong></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr class="gt_group_heading_row">
+      <th colspan="8" class="gt_group_heading" scope="colgroup" id="Response">Response</th>
+    </tr>
+    <tr class="gt_row_group_first"><td headers="Response  label" class="gt_row gt_left"> age</td>
+<td headers="Response  stat_n_1" class="gt_row gt_center">810</td>
+<td headers="Response  estimate_1" class="gt_row gt_center">1.32</td>
+<td headers="Response  conf.low_1" class="gt_row gt_center">1.12, 1.57</td>
+<td headers="Response  p.value_1" class="gt_row gt_center">0.001</td>
+<td headers="Response  estimate_2" class="gt_row gt_center">1.38</td>
+<td headers="Response  conf.low_2" class="gt_row gt_center">1.05, 1.80</td>
+<td headers="Response  p.value_2" class="gt_row gt_center">0.019</td></tr>
+    <tr><td headers="Response  label" class="gt_row gt_left"> ECOG 2+</td>
+<td headers="Response  stat_n_1" class="gt_row gt_center">759</td>
+<td headers="Response  estimate_1" class="gt_row gt_center">0.53</td>
+<td headers="Response  conf.low_1" class="gt_row gt_center">0.28, 1.03</td>
+<td headers="Response  p.value_1" class="gt_row gt_center">0.054</td>
+<td headers="Response  estimate_2" class="gt_row gt_center">0.23</td>
+<td headers="Response  conf.low_2" class="gt_row gt_center">0.08, 0.63</td>
+<td headers="Response  p.value_2" class="gt_row gt_center">0.005</td></tr>
+    <tr><td headers="Response  label" class="gt_row gt_left"> EMD</td>
+<td headers="Response  stat_n_1" class="gt_row gt_center">479</td>
+<td headers="Response  estimate_1" class="gt_row gt_center">0.61</td>
+<td headers="Response  conf.low_1" class="gt_row gt_center">0.37, 1.01</td>
+<td headers="Response  p.value_1" class="gt_row gt_center">0.050</td>
+<td headers="Response  estimate_2" class="gt_row gt_center">0.63</td>
+<td headers="Response  conf.low_2" class="gt_row gt_center">0.35, 1.16</td>
+<td headers="Response  p.value_2" class="gt_row gt_center">0.13</td></tr>
+    <tr><td headers="Response  label" class="gt_row gt_left"> High.risk</td>
+<td headers="Response  stat_n_1" class="gt_row gt_center">716</td>
+<td headers="Response  estimate_1" class="gt_row gt_center">0.86</td>
+<td headers="Response  conf.low_1" class="gt_row gt_center">0.59, 1.25</td>
+<td headers="Response  p.value_1" class="gt_row gt_center">0.4</td>
+<td headers="Response  estimate_2" class="gt_row gt_center">0.93</td>
+<td headers="Response  conf.low_2" class="gt_row gt_center">0.56, 1.57</td>
+<td headers="Response  p.value_2" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="Response  label" class="gt_row gt_left"> Prior.HCT</td>
+<td headers="Response  stat_n_1" class="gt_row gt_center">794</td>
+<td headers="Response  estimate_1" class="gt_row gt_center">1.27</td>
+<td headers="Response  conf.low_1" class="gt_row gt_center">0.81, 1.96</td>
+<td headers="Response  p.value_1" class="gt_row gt_center">0.3</td>
+<td headers="Response  estimate_2" class="gt_row gt_center">1.58</td>
+<td headers="Response  conf.low_2" class="gt_row gt_center">0.77, 3.13</td>
+<td headers="Response  p.value_2" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="Response  label" class="gt_row gt_left"> LOT</td>
+<td headers="Response  stat_n_1" class="gt_row gt_center">774</td>
+<td headers="Response  estimate_1" class="gt_row gt_center">0.97</td>
+<td headers="Response  conf.low_1" class="gt_row gt_center">0.92, 1.03</td>
+<td headers="Response  p.value_1" class="gt_row gt_center">0.3</td>
+<td headers="Response  estimate_2" class="gt_row gt_center">0.93</td>
+<td headers="Response  conf.low_2" class="gt_row gt_center">0.84, 1.04</td>
+<td headers="Response  p.value_2" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="Response  label" class="gt_row gt_left"> Years.since.dx</td>
+<td headers="Response  stat_n_1" class="gt_row gt_center">810</td>
+<td headers="Response  estimate_1" class="gt_row gt_center">1.03</td>
+<td headers="Response  conf.low_1" class="gt_row gt_center">0.99, 1.07</td>
+<td headers="Response  p.value_1" class="gt_row gt_center">0.2</td>
+<td headers="Response  estimate_2" class="gt_row gt_center">1.03</td>
+<td headers="Response  conf.low_2" class="gt_row gt_center">0.96, 1.12</td>
+<td headers="Response  p.value_2" class="gt_row gt_center">0.4</td></tr>
+    <tr class="gt_group_heading_row">
+      <th colspan="8" class="gt_group_heading" scope="colgroup" id="CR/sCR">CR/sCR</th>
+    </tr>
+    <tr class="gt_row_group_first"><td headers="CR/sCR  label" class="gt_row gt_left"> age</td>
+<td headers="CR/sCR  stat_n_1" class="gt_row gt_center">810</td>
+<td headers="CR/sCR  estimate_1" class="gt_row gt_center">1.12</td>
+<td headers="CR/sCR  conf.low_1" class="gt_row gt_center">0.94, 1.34</td>
+<td headers="CR/sCR  p.value_1" class="gt_row gt_center">0.2</td>
+<td headers="CR/sCR  estimate_2" class="gt_row gt_center">1.30</td>
+<td headers="CR/sCR  conf.low_2" class="gt_row gt_center">0.99, 1.72</td>
+<td headers="CR/sCR  p.value_2" class="gt_row gt_center">0.064</td></tr>
+    <tr><td headers="CR/sCR  label" class="gt_row gt_left"> ECOG 2+</td>
+<td headers="CR/sCR  stat_n_1" class="gt_row gt_center">759</td>
+<td headers="CR/sCR  estimate_1" class="gt_row gt_center">0.30</td>
+<td headers="CR/sCR  conf.low_1" class="gt_row gt_center">0.09, 0.76</td>
+<td headers="CR/sCR  p.value_1" class="gt_row gt_center">0.024</td>
+<td headers="CR/sCR  estimate_2" class="gt_row gt_center">0.15</td>
+<td headers="CR/sCR  conf.low_2" class="gt_row gt_center">0.01, 0.75</td>
+<td headers="CR/sCR  p.value_2" class="gt_row gt_center">0.067</td></tr>
+    <tr><td headers="CR/sCR  label" class="gt_row gt_left"> EMD</td>
+<td headers="CR/sCR  stat_n_1" class="gt_row gt_center">479</td>
+<td headers="CR/sCR  estimate_1" class="gt_row gt_center">0.43</td>
+<td headers="CR/sCR  conf.low_1" class="gt_row gt_center">0.22, 0.80</td>
+<td headers="CR/sCR  p.value_1" class="gt_row gt_center">0.011</td>
+<td headers="CR/sCR  estimate_2" class="gt_row gt_center">0.36</td>
+<td headers="CR/sCR  conf.low_2" class="gt_row gt_center">0.16, 0.74</td>
+<td headers="CR/sCR  p.value_2" class="gt_row gt_center">0.009</td></tr>
+    <tr><td headers="CR/sCR  label" class="gt_row gt_left"> High.risk</td>
+<td headers="CR/sCR  stat_n_1" class="gt_row gt_center">716</td>
+<td headers="CR/sCR  estimate_1" class="gt_row gt_center">0.98</td>
+<td headers="CR/sCR  conf.low_1" class="gt_row gt_center">0.67, 1.42</td>
+<td headers="CR/sCR  p.value_1" class="gt_row gt_center">&gt;0.9</td>
+<td headers="CR/sCR  estimate_2" class="gt_row gt_center">0.87</td>
+<td headers="CR/sCR  conf.low_2" class="gt_row gt_center">0.52, 1.45</td>
+<td headers="CR/sCR  p.value_2" class="gt_row gt_center">0.6</td></tr>
+    <tr><td headers="CR/sCR  label" class="gt_row gt_left"> Prior.HCT</td>
+<td headers="CR/sCR  stat_n_1" class="gt_row gt_center">794</td>
+<td headers="CR/sCR  estimate_1" class="gt_row gt_center">1.12</td>
+<td headers="CR/sCR  conf.low_1" class="gt_row gt_center">0.71, 1.82</td>
+<td headers="CR/sCR  p.value_1" class="gt_row gt_center">0.6</td>
+<td headers="CR/sCR  estimate_2" class="gt_row gt_center">1.40</td>
+<td headers="CR/sCR  conf.low_2" class="gt_row gt_center">0.71, 2.91</td>
+<td headers="CR/sCR  p.value_2" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="CR/sCR  label" class="gt_row gt_left"> LOT</td>
+<td headers="CR/sCR  stat_n_1" class="gt_row gt_center">774</td>
+<td headers="CR/sCR  estimate_1" class="gt_row gt_center">0.91</td>
+<td headers="CR/sCR  conf.low_1" class="gt_row gt_center">0.85, 0.97</td>
+<td headers="CR/sCR  p.value_1" class="gt_row gt_center">0.007</td>
+<td headers="CR/sCR  estimate_2" class="gt_row gt_center">0.90</td>
+<td headers="CR/sCR  conf.low_2" class="gt_row gt_center">0.81, 1.01</td>
+<td headers="CR/sCR  p.value_2" class="gt_row gt_center">0.073</td></tr>
+    <tr><td headers="CR/sCR  label" class="gt_row gt_left"> Years.since.dx</td>
+<td headers="CR/sCR  stat_n_1" class="gt_row gt_center">810</td>
+<td headers="CR/sCR  estimate_1" class="gt_row gt_center">1.01</td>
+<td headers="CR/sCR  conf.low_1" class="gt_row gt_center">0.97, 1.04</td>
+<td headers="CR/sCR  p.value_1" class="gt_row gt_center">0.8</td>
+<td headers="CR/sCR  estimate_2" class="gt_row gt_center">1.02</td>
+<td headers="CR/sCR  conf.low_2" class="gt_row gt_center">0.94, 1.09</td>
+<td headers="CR/sCR  p.value_2" class="gt_row gt_center">0.7</td></tr>
+    <tr class="gt_group_heading_row">
+      <th colspan="8" class="gt_group_heading" scope="colgroup" id="Overall Survival">Overall Survival</th>
+    </tr>
+    <tr class="gt_row_group_first"><td headers="Overall Survival  label" class="gt_row gt_left"> age</td>
+<td headers="Overall Survival  stat_n_1" class="gt_row gt_center">820</td>
+<td headers="Overall Survival  estimate_1" class="gt_row gt_center">0.87</td>
+<td headers="Overall Survival  conf.low_1" class="gt_row gt_center">0.75, 1.00</td>
+<td headers="Overall Survival  p.value_1" class="gt_row gt_center">0.053</td>
+<td headers="Overall Survival  estimate_2" class="gt_row gt_center">0.80</td>
+<td headers="Overall Survival  conf.low_2" class="gt_row gt_center">0.64, 1.00</td>
+<td headers="Overall Survival  p.value_2" class="gt_row gt_center">0.051</td></tr>
+    <tr><td headers="Overall Survival  label" class="gt_row gt_left"> ECOG 2+</td>
+<td headers="Overall Survival  stat_n_1" class="gt_row gt_center">770</td>
+<td headers="Overall Survival  estimate_1" class="gt_row gt_center">3.37</td>
+<td headers="Overall Survival  conf.low_1" class="gt_row gt_center">2.23, 5.09</td>
+<td headers="Overall Survival  p.value_1" class="gt_row gt_center">&lt;0.001</td>
+<td headers="Overall Survival  estimate_2" class="gt_row gt_center">6.64</td>
+<td headers="Overall Survival  conf.low_2" class="gt_row gt_center">3.70, 11.9</td>
+<td headers="Overall Survival  p.value_2" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="Overall Survival  label" class="gt_row gt_left"> EMD</td>
+<td headers="Overall Survival  stat_n_1" class="gt_row gt_center">488</td>
+<td headers="Overall Survival  estimate_1" class="gt_row gt_center">1.52</td>
+<td headers="Overall Survival  conf.low_1" class="gt_row gt_center">1.02, 2.27</td>
+<td headers="Overall Survival  p.value_1" class="gt_row gt_center">0.040</td>
+<td headers="Overall Survival  estimate_2" class="gt_row gt_center">1.53</td>
+<td headers="Overall Survival  conf.low_2" class="gt_row gt_center">0.96, 2.43</td>
+<td headers="Overall Survival  p.value_2" class="gt_row gt_center">0.072</td></tr>
+    <tr><td headers="Overall Survival  label" class="gt_row gt_left"> High.risk</td>
+<td headers="Overall Survival  stat_n_1" class="gt_row gt_center">727</td>
+<td headers="Overall Survival  estimate_1" class="gt_row gt_center">1.42</td>
+<td headers="Overall Survival  conf.low_1" class="gt_row gt_center">1.06, 1.91</td>
+<td headers="Overall Survival  p.value_1" class="gt_row gt_center">0.020</td>
+<td headers="Overall Survival  estimate_2" class="gt_row gt_center">1.26</td>
+<td headers="Overall Survival  conf.low_2" class="gt_row gt_center">0.82, 1.92</td>
+<td headers="Overall Survival  p.value_2" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="Overall Survival  label" class="gt_row gt_left"> Prior.HCT</td>
+<td headers="Overall Survival  stat_n_1" class="gt_row gt_center">805</td>
+<td headers="Overall Survival  estimate_1" class="gt_row gt_center">0.98</td>
+<td headers="Overall Survival  conf.low_1" class="gt_row gt_center">0.65, 1.47</td>
+<td headers="Overall Survival  p.value_1" class="gt_row gt_center">&gt;0.9</td>
+<td headers="Overall Survival  estimate_2" class="gt_row gt_center">1.29</td>
+<td headers="Overall Survival  conf.low_2" class="gt_row gt_center">0.64, 2.62</td>
+<td headers="Overall Survival  p.value_2" class="gt_row gt_center">0.5</td></tr>
+    <tr><td headers="Overall Survival  label" class="gt_row gt_left"> LOT</td>
+<td headers="Overall Survival  stat_n_1" class="gt_row gt_center">785</td>
+<td headers="Overall Survival  estimate_1" class="gt_row gt_center">1.06</td>
+<td headers="Overall Survival  conf.low_1" class="gt_row gt_center">1.01, 1.10</td>
+<td headers="Overall Survival  p.value_1" class="gt_row gt_center">0.016</td>
+<td headers="Overall Survival  estimate_2" class="gt_row gt_center">1.07</td>
+<td headers="Overall Survival  conf.low_2" class="gt_row gt_center">0.98, 1.16</td>
+<td headers="Overall Survival  p.value_2" class="gt_row gt_center">0.13</td></tr>
+    <tr><td headers="Overall Survival  label" class="gt_row gt_left"> Years.since.dx</td>
+<td headers="Overall Survival  stat_n_1" class="gt_row gt_center">820</td>
+<td headers="Overall Survival  estimate_1" class="gt_row gt_center">0.95</td>
+<td headers="Overall Survival  conf.low_1" class="gt_row gt_center">0.91, 0.98</td>
+<td headers="Overall Survival  p.value_1" class="gt_row gt_center">0.001</td>
+<td headers="Overall Survival  estimate_2" class="gt_row gt_center">0.97</td>
+<td headers="Overall Survival  conf.low_2" class="gt_row gt_center">0.91, 1.03</td>
+<td headers="Overall Survival  p.value_2" class="gt_row gt_center">0.4</td></tr>
+    <tr class="gt_group_heading_row">
+      <th colspan="8" class="gt_group_heading" scope="colgroup" id="Progression-free Survival">Progression-free Survival</th>
+    </tr>
+    <tr class="gt_row_group_first"><td headers="Progression-free Survival  label" class="gt_row gt_left"> age</td>
+<td headers="Progression-free Survival  stat_n_1" class="gt_row gt_center">766</td>
+<td headers="Progression-free Survival  estimate_1" class="gt_row gt_center">0.81</td>
+<td headers="Progression-free Survival  conf.low_1" class="gt_row gt_center">0.72, 0.91</td>
+<td headers="Progression-free Survival  p.value_1" class="gt_row gt_center">&lt;0.001</td>
+<td headers="Progression-free Survival  estimate_2" class="gt_row gt_center">0.78</td>
+<td headers="Progression-free Survival  conf.low_2" class="gt_row gt_center">0.65, 0.92</td>
+<td headers="Progression-free Survival  p.value_2" class="gt_row gt_center">0.004</td></tr>
+    <tr><td headers="Progression-free Survival  label" class="gt_row gt_left"> ECOG 2+</td>
+<td headers="Progression-free Survival  stat_n_1" class="gt_row gt_center">719</td>
+<td headers="Progression-free Survival  estimate_1" class="gt_row gt_center">2.52</td>
+<td headers="Progression-free Survival  conf.low_1" class="gt_row gt_center">1.69, 3.77</td>
+<td headers="Progression-free Survival  p.value_1" class="gt_row gt_center">&lt;0.001</td>
+<td headers="Progression-free Survival  estimate_2" class="gt_row gt_center">5.75</td>
+<td headers="Progression-free Survival  conf.low_2" class="gt_row gt_center">3.09, 10.7</td>
+<td headers="Progression-free Survival  p.value_2" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="Progression-free Survival  label" class="gt_row gt_left"> EMD</td>
+<td headers="Progression-free Survival  stat_n_1" class="gt_row gt_center">453</td>
+<td headers="Progression-free Survival  estimate_1" class="gt_row gt_center">1.85</td>
+<td headers="Progression-free Survival  conf.low_1" class="gt_row gt_center">1.36, 2.53</td>
+<td headers="Progression-free Survival  p.value_1" class="gt_row gt_center">&lt;0.001</td>
+<td headers="Progression-free Survival  estimate_2" class="gt_row gt_center">1.65</td>
+<td headers="Progression-free Survival  conf.low_2" class="gt_row gt_center">1.13, 2.43</td>
+<td headers="Progression-free Survival  p.value_2" class="gt_row gt_center">0.010</td></tr>
+    <tr><td headers="Progression-free Survival  label" class="gt_row gt_left"> High.risk</td>
+<td headers="Progression-free Survival  stat_n_1" class="gt_row gt_center">676</td>
+<td headers="Progression-free Survival  estimate_1" class="gt_row gt_center">1.34</td>
+<td headers="Progression-free Survival  conf.low_1" class="gt_row gt_center">1.05, 1.71</td>
+<td headers="Progression-free Survival  p.value_1" class="gt_row gt_center">0.019</td>
+<td headers="Progression-free Survival  estimate_2" class="gt_row gt_center">1.21</td>
+<td headers="Progression-free Survival  conf.low_2" class="gt_row gt_center">0.86, 1.71</td>
+<td headers="Progression-free Survival  p.value_2" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="Progression-free Survival  label" class="gt_row gt_left"> Prior.HCT</td>
+<td headers="Progression-free Survival  stat_n_1" class="gt_row gt_center">752</td>
+<td headers="Progression-free Survival  estimate_1" class="gt_row gt_center">1.00</td>
+<td headers="Progression-free Survival  conf.low_1" class="gt_row gt_center">0.73, 1.36</td>
+<td headers="Progression-free Survival  p.value_1" class="gt_row gt_center">&gt;0.9</td>
+<td headers="Progression-free Survival  estimate_2" class="gt_row gt_center">0.89</td>
+<td headers="Progression-free Survival  conf.low_2" class="gt_row gt_center">0.53, 1.51</td>
+<td headers="Progression-free Survival  p.value_2" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="Progression-free Survival  label" class="gt_row gt_left"> LOT</td>
+<td headers="Progression-free Survival  stat_n_1" class="gt_row gt_center">732</td>
+<td headers="Progression-free Survival  estimate_1" class="gt_row gt_center">1.04</td>
+<td headers="Progression-free Survival  conf.low_1" class="gt_row gt_center">1.00, 1.09</td>
+<td headers="Progression-free Survival  p.value_1" class="gt_row gt_center">0.044</td>
+<td headers="Progression-free Survival  estimate_2" class="gt_row gt_center">1.06</td>
+<td headers="Progression-free Survival  conf.low_2" class="gt_row gt_center">0.98, 1.15</td>
+<td headers="Progression-free Survival  p.value_2" class="gt_row gt_center">0.12</td></tr>
+    <tr><td headers="Progression-free Survival  label" class="gt_row gt_left"> Years.since.dx</td>
+<td headers="Progression-free Survival  stat_n_1" class="gt_row gt_center">766</td>
+<td headers="Progression-free Survival  estimate_1" class="gt_row gt_center">0.96</td>
+<td headers="Progression-free Survival  conf.low_1" class="gt_row gt_center">0.94, 0.99</td>
+<td headers="Progression-free Survival  p.value_1" class="gt_row gt_center">0.003</td>
+<td headers="Progression-free Survival  estimate_2" class="gt_row gt_center">0.97</td>
+<td headers="Progression-free Survival  conf.low_2" class="gt_row gt_center">0.92, 1.02</td>
+<td headers="Progression-free Survival  p.value_2" class="gt_row gt_center">0.3</td></tr>
+    <tr class="gt_group_heading_row">
+      <th colspan="8" class="gt_group_heading" scope="colgroup" id="Duration of Response">Duration of Response</th>
+    </tr>
+    <tr class="gt_row_group_first"><td headers="Duration of Response  label" class="gt_row gt_left"> age</td>
+<td headers="Duration of Response  stat_n_1" class="gt_row gt_center">541</td>
+<td headers="Duration of Response  estimate_1" class="gt_row gt_center">0.90</td>
+<td headers="Duration of Response  conf.low_1" class="gt_row gt_center">0.77, 1.06</td>
+<td headers="Duration of Response  p.value_1" class="gt_row gt_center">0.2</td>
+<td headers="Duration of Response  estimate_2" class="gt_row gt_center">0.83</td>
+<td headers="Duration of Response  conf.low_2" class="gt_row gt_center">0.64, 1.06</td>
+<td headers="Duration of Response  p.value_2" class="gt_row gt_center">0.14</td></tr>
+    <tr><td headers="Duration of Response  label" class="gt_row gt_left"> ECOG 2+</td>
+<td headers="Duration of Response  stat_n_1" class="gt_row gt_center">504</td>
+<td headers="Duration of Response  estimate_1" class="gt_row gt_center">2.64</td>
+<td headers="Duration of Response  conf.low_1" class="gt_row gt_center">1.49, 4.67</td>
+<td headers="Duration of Response  p.value_1" class="gt_row gt_center">&lt;0.001</td>
+<td headers="Duration of Response  estimate_2" class="gt_row gt_center">5.43</td>
+<td headers="Duration of Response  conf.low_2" class="gt_row gt_center">1.82, 16.2</td>
+<td headers="Duration of Response  p.value_2" class="gt_row gt_center">0.002</td></tr>
+    <tr><td headers="Duration of Response  label" class="gt_row gt_left"> EMD</td>
+<td headers="Duration of Response  stat_n_1" class="gt_row gt_center">313</td>
+<td headers="Duration of Response  estimate_1" class="gt_row gt_center">2.01</td>
+<td headers="Duration of Response  conf.low_1" class="gt_row gt_center">1.30, 3.11</td>
+<td headers="Duration of Response  p.value_1" class="gt_row gt_center">0.002</td>
+<td headers="Duration of Response  estimate_2" class="gt_row gt_center">1.73</td>
+<td headers="Duration of Response  conf.low_2" class="gt_row gt_center">0.98, 3.05</td>
+<td headers="Duration of Response  p.value_2" class="gt_row gt_center">0.058</td></tr>
+    <tr><td headers="Duration of Response  label" class="gt_row gt_left"> High.risk</td>
+<td headers="Duration of Response  stat_n_1" class="gt_row gt_center">487</td>
+<td headers="Duration of Response  estimate_1" class="gt_row gt_center">1.18</td>
+<td headers="Duration of Response  conf.low_1" class="gt_row gt_center">0.83, 1.67</td>
+<td headers="Duration of Response  p.value_1" class="gt_row gt_center">0.4</td>
+<td headers="Duration of Response  estimate_2" class="gt_row gt_center">0.91</td>
+<td headers="Duration of Response  conf.low_2" class="gt_row gt_center">0.55, 1.53</td>
+<td headers="Duration of Response  p.value_2" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="Duration of Response  label" class="gt_row gt_left"> Prior.HCT</td>
+<td headers="Duration of Response  stat_n_1" class="gt_row gt_center">533</td>
+<td headers="Duration of Response  estimate_1" class="gt_row gt_center">0.96</td>
+<td headers="Duration of Response  conf.low_1" class="gt_row gt_center">0.60, 1.54</td>
+<td headers="Duration of Response  p.value_1" class="gt_row gt_center">0.9</td>
+<td headers="Duration of Response  estimate_2" class="gt_row gt_center">1.18</td>
+<td headers="Duration of Response  conf.low_2" class="gt_row gt_center">0.47, 2.95</td>
+<td headers="Duration of Response  p.value_2" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="Duration of Response  label" class="gt_row gt_left"> LOT</td>
+<td headers="Duration of Response  stat_n_1" class="gt_row gt_center">525</td>
+<td headers="Duration of Response  estimate_1" class="gt_row gt_center">1.01</td>
+<td headers="Duration of Response  conf.low_1" class="gt_row gt_center">0.95, 1.08</td>
+<td headers="Duration of Response  p.value_1" class="gt_row gt_center">0.7</td>
+<td headers="Duration of Response  estimate_2" class="gt_row gt_center">0.99</td>
+<td headers="Duration of Response  conf.low_2" class="gt_row gt_center">0.89, 1.12</td>
+<td headers="Duration of Response  p.value_2" class="gt_row gt_center">&gt;0.9</td></tr>
+    <tr><td headers="Duration of Response  label" class="gt_row gt_left"> Years.since.dx</td>
+<td headers="Duration of Response  stat_n_1" class="gt_row gt_center">541</td>
+<td headers="Duration of Response  estimate_1" class="gt_row gt_center">0.95</td>
+<td headers="Duration of Response  conf.low_1" class="gt_row gt_center">0.92, 0.99</td>
+<td headers="Duration of Response  p.value_1" class="gt_row gt_center">0.012</td>
+<td headers="Duration of Response  estimate_2" class="gt_row gt_center">1.00</td>
+<td headers="Duration of Response  conf.low_2" class="gt_row gt_center">0.93, 1.08</td>
+<td headers="Duration of Response  p.value_2" class="gt_row gt_center">&gt;0.9</td></tr>
+    <tr class="gt_group_heading_row">
+      <th colspan="8" class="gt_group_heading" scope="colgroup" id="CRS G2+">CRS G2+</th>
+    </tr>
+    <tr class="gt_row_group_first"><td headers="CRS G2+  label" class="gt_row gt_left"> age</td>
+<td headers="CRS G2+  stat_n_1" class="gt_row gt_center">813</td>
+<td headers="CRS G2+  estimate_1" class="gt_row gt_center">1.23</td>
+<td headers="CRS G2+  conf.low_1" class="gt_row gt_center">1.02, 1.50</td>
+<td headers="CRS G2+  p.value_1" class="gt_row gt_center">0.029</td>
+<td headers="CRS G2+  estimate_2" class="gt_row gt_center">1.43</td>
+<td headers="CRS G2+  conf.low_2" class="gt_row gt_center">1.07, 1.94</td>
+<td headers="CRS G2+  p.value_2" class="gt_row gt_center">0.018</td></tr>
+    <tr><td headers="CRS G2+  label" class="gt_row gt_left"> ECOG 2+</td>
+<td headers="CRS G2+  stat_n_1" class="gt_row gt_center">762</td>
+<td headers="CRS G2+  estimate_1" class="gt_row gt_center">2.08</td>
+<td headers="CRS G2+  conf.low_1" class="gt_row gt_center">1.05, 3.95</td>
+<td headers="CRS G2+  p.value_1" class="gt_row gt_center">0.029</td>
+<td headers="CRS G2+  estimate_2" class="gt_row gt_center">3.06</td>
+<td headers="CRS G2+  conf.low_2" class="gt_row gt_center">1.11, 8.24</td>
+<td headers="CRS G2+  p.value_2" class="gt_row gt_center">0.027</td></tr>
+    <tr><td headers="CRS G2+  label" class="gt_row gt_left"> EMD</td>
+<td headers="CRS G2+  stat_n_1" class="gt_row gt_center">482</td>
+<td headers="CRS G2+  estimate_1" class="gt_row gt_center">1.74</td>
+<td headers="CRS G2+  conf.low_1" class="gt_row gt_center">1.01, 2.93</td>
+<td headers="CRS G2+  p.value_1" class="gt_row gt_center">0.041</td>
+<td headers="CRS G2+  estimate_2" class="gt_row gt_center">1.52</td>
+<td headers="CRS G2+  conf.low_2" class="gt_row gt_center">0.81, 2.78</td>
+<td headers="CRS G2+  p.value_2" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="CRS G2+  label" class="gt_row gt_left"> High.risk</td>
+<td headers="CRS G2+  stat_n_1" class="gt_row gt_center">720</td>
+<td headers="CRS G2+  estimate_1" class="gt_row gt_center">1.38</td>
+<td headers="CRS G2+  conf.low_1" class="gt_row gt_center">0.94, 2.02</td>
+<td headers="CRS G2+  p.value_1" class="gt_row gt_center">0.094</td>
+<td headers="CRS G2+  estimate_2" class="gt_row gt_center">0.98</td>
+<td headers="CRS G2+  conf.low_2" class="gt_row gt_center">0.56, 1.67</td>
+<td headers="CRS G2+  p.value_2" class="gt_row gt_center">&gt;0.9</td></tr>
+    <tr><td headers="CRS G2+  label" class="gt_row gt_left"> Prior.HCT</td>
+<td headers="CRS G2+  stat_n_1" class="gt_row gt_center">797</td>
+<td headers="CRS G2+  estimate_1" class="gt_row gt_center">1.00</td>
+<td headers="CRS G2+  conf.low_1" class="gt_row gt_center">0.63, 1.65</td>
+<td headers="CRS G2+  p.value_1" class="gt_row gt_center">&gt;0.9</td>
+<td headers="CRS G2+  estimate_2" class="gt_row gt_center">1.12</td>
+<td headers="CRS G2+  conf.low_2" class="gt_row gt_center">0.56, 2.40</td>
+<td headers="CRS G2+  p.value_2" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="CRS G2+  label" class="gt_row gt_left"> LOT</td>
+<td headers="CRS G2+  stat_n_1" class="gt_row gt_center">778</td>
+<td headers="CRS G2+  estimate_1" class="gt_row gt_center">0.99</td>
+<td headers="CRS G2+  conf.low_1" class="gt_row gt_center">0.93, 1.06</td>
+<td headers="CRS G2+  p.value_1" class="gt_row gt_center">0.8</td>
+<td headers="CRS G2+  estimate_2" class="gt_row gt_center">1.04</td>
+<td headers="CRS G2+  conf.low_2" class="gt_row gt_center">0.93, 1.16</td>
+<td headers="CRS G2+  p.value_2" class="gt_row gt_center">0.5</td></tr>
+    <tr><td headers="CRS G2+  label" class="gt_row gt_left"> Years.since.dx</td>
+<td headers="CRS G2+  stat_n_1" class="gt_row gt_center">813</td>
+<td headers="CRS G2+  estimate_1" class="gt_row gt_center">0.96</td>
+<td headers="CRS G2+  conf.low_1" class="gt_row gt_center">0.92, 1.00</td>
+<td headers="CRS G2+  p.value_1" class="gt_row gt_center">0.037</td>
+<td headers="CRS G2+  estimate_2" class="gt_row gt_center">0.92</td>
+<td headers="CRS G2+  conf.low_2" class="gt_row gt_center">0.84, 1.00</td>
+<td headers="CRS G2+  p.value_2" class="gt_row gt_center">0.044</td></tr>
+    <tr class="gt_group_heading_row">
+      <th colspan="8" class="gt_group_heading" scope="colgroup" id="Neurotox G2+">Neurotox G2+</th>
+    </tr>
+    <tr class="gt_row_group_first"><td headers="Neurotox G2+  label" class="gt_row gt_left"> age</td>
+<td headers="Neurotox G2+  stat_n_1" class="gt_row gt_center">771</td>
+<td headers="Neurotox G2+  estimate_1" class="gt_row gt_center">1.61</td>
+<td headers="Neurotox G2+  conf.low_1" class="gt_row gt_center">1.22, 2.14</td>
+<td headers="Neurotox G2+  p.value_1" class="gt_row gt_center">&lt;0.001</td>
+<td headers="Neurotox G2+  estimate_2" class="gt_row gt_center">1.74</td>
+<td headers="Neurotox G2+  conf.low_2" class="gt_row gt_center">1.14, 2.77</td>
+<td headers="Neurotox G2+  p.value_2" class="gt_row gt_center">0.014</td></tr>
+    <tr><td headers="Neurotox G2+  label" class="gt_row gt_left"> ECOG 2+</td>
+<td headers="Neurotox G2+  stat_n_1" class="gt_row gt_center">721</td>
+<td headers="Neurotox G2+  estimate_1" class="gt_row gt_center">6.66</td>
+<td headers="Neurotox G2+  conf.low_1" class="gt_row gt_center">3.31, 13.1</td>
+<td headers="Neurotox G2+  p.value_1" class="gt_row gt_center">&lt;0.001</td>
+<td headers="Neurotox G2+  estimate_2" class="gt_row gt_center">21.2</td>
+<td headers="Neurotox G2+  conf.low_2" class="gt_row gt_center">6.86, 73.6</td>
+<td headers="Neurotox G2+  p.value_2" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="Neurotox G2+  label" class="gt_row gt_left"> EMD</td>
+<td headers="Neurotox G2+  stat_n_1" class="gt_row gt_center">448</td>
+<td headers="Neurotox G2+  estimate_1" class="gt_row gt_center">1.13</td>
+<td headers="Neurotox G2+  conf.low_1" class="gt_row gt_center">0.51, 2.29</td>
+<td headers="Neurotox G2+  p.value_1" class="gt_row gt_center">0.7</td>
+<td headers="Neurotox G2+  estimate_2" class="gt_row gt_center">1.04</td>
+<td headers="Neurotox G2+  conf.low_2" class="gt_row gt_center">0.39, 2.47</td>
+<td headers="Neurotox G2+  p.value_2" class="gt_row gt_center">&gt;0.9</td></tr>
+    <tr><td headers="Neurotox G2+  label" class="gt_row gt_left"> High.risk</td>
+<td headers="Neurotox G2+  stat_n_1" class="gt_row gt_center">679</td>
+<td headers="Neurotox G2+  estimate_1" class="gt_row gt_center">1.21</td>
+<td headers="Neurotox G2+  conf.low_1" class="gt_row gt_center">0.71, 2.02</td>
+<td headers="Neurotox G2+  p.value_1" class="gt_row gt_center">0.5</td>
+<td headers="Neurotox G2+  estimate_2" class="gt_row gt_center">0.82</td>
+<td headers="Neurotox G2+  conf.low_2" class="gt_row gt_center">0.36, 1.77</td>
+<td headers="Neurotox G2+  p.value_2" class="gt_row gt_center">0.6</td></tr>
+    <tr><td headers="Neurotox G2+  label" class="gt_row gt_left"> Prior.HCT</td>
+<td headers="Neurotox G2+  stat_n_1" class="gt_row gt_center">756</td>
+<td headers="Neurotox G2+  estimate_1" class="gt_row gt_center">0.80</td>
+<td headers="Neurotox G2+  conf.low_1" class="gt_row gt_center">0.44, 1.57</td>
+<td headers="Neurotox G2+  p.value_1" class="gt_row gt_center">0.5</td>
+<td headers="Neurotox G2+  estimate_2" class="gt_row gt_center">1.44</td>
+<td headers="Neurotox G2+  conf.low_2" class="gt_row gt_center">0.54, 4.38</td>
+<td headers="Neurotox G2+  p.value_2" class="gt_row gt_center">0.5</td></tr>
+    <tr><td headers="Neurotox G2+  label" class="gt_row gt_left"> LOT</td>
+<td headers="Neurotox G2+  stat_n_1" class="gt_row gt_center">737</td>
+<td headers="Neurotox G2+  estimate_1" class="gt_row gt_center">0.97</td>
+<td headers="Neurotox G2+  conf.low_1" class="gt_row gt_center">0.89, 1.06</td>
+<td headers="Neurotox G2+  p.value_1" class="gt_row gt_center">0.5</td>
+<td headers="Neurotox G2+  estimate_2" class="gt_row gt_center">0.96</td>
+<td headers="Neurotox G2+  conf.low_2" class="gt_row gt_center">0.82, 1.13</td>
+<td headers="Neurotox G2+  p.value_2" class="gt_row gt_center">0.6</td></tr>
+    <tr><td headers="Neurotox G2+  label" class="gt_row gt_left"> Years.since.dx</td>
+<td headers="Neurotox G2+  stat_n_1" class="gt_row gt_center">771</td>
+<td headers="Neurotox G2+  estimate_1" class="gt_row gt_center">0.96</td>
+<td headers="Neurotox G2+  conf.low_1" class="gt_row gt_center">0.91, 1.02</td>
+<td headers="Neurotox G2+  p.value_1" class="gt_row gt_center">0.2</td>
+<td headers="Neurotox G2+  estimate_2" class="gt_row gt_center">0.98</td>
+<td headers="Neurotox G2+  conf.low_2" class="gt_row gt_center">0.86, 1.09</td>
+<td headers="Neurotox G2+  p.value_2" class="gt_row gt_center">0.7</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="8"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class="gt_from_md">Estimate = Beta, odds ratio, or hazard ratio; Age per 10 yrs</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
 </div>
 </div>
 
